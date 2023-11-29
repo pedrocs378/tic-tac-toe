@@ -23,7 +23,7 @@ export function ClipboardButton({
     if (window.innerWidth < 640) {
       await navigator.share?.({
         title: 'Tic Tac Toe',
-        text: 'Jogue o jogo da velha comigo',
+        text: 'Jogue uma partida de jogo da velha comigo',
         url: window.location.href,
       })
     } else if (navigator.clipboard) {
