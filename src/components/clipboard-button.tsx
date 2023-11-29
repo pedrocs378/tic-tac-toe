@@ -20,16 +20,16 @@ export function ClipboardButton({
   async function handleCopyValue() {
     if (!value) return
 
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(value)
-
-      toast({ title: 'Copiado com sucesso' })
-    } else {
+    if (window.innerWidth < 640) {
       await navigator.share?.({
         title: 'Tic Tac Toe',
         text: 'Jogue o jogo da velha comigo',
         url: window.location.href,
       })
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(value)
+
+      toast({ title: 'Copiado com sucesso' })
     }
   }
 
