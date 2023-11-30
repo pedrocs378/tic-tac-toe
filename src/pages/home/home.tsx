@@ -18,6 +18,7 @@ export function Home() {
   const nicknameRef = useRef<HTMLInputElement>(null)
 
   const [selectedPlayer, setSelectedPlayer] = useState<'o' | 'x'>('o')
+  const [error, setError] = useState<string | null>(null)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -42,7 +43,9 @@ export function Home() {
   async function handleCreateRoom() {
     const nickname = nicknameRef.current?.value
 
-    if (!nickname) return
+    if (!nickname) {
+      return setError('Informe um nickname')
+    }
 
     const room = await createRoomMutateAsync({
       nickname,
@@ -55,9 +58,20 @@ export function Home() {
     })
 
     localStorage.setItem('@tictactoe:nickname', nickname)
-    localStorage.setItem('@tictactoe:share', 'true')
 
     navigate(`/${room.id}`)
+  }
+
+  function handleGoToExistingRoom() {
+    const nickname = nicknameRef.current?.value
+
+    if (!nickname) {
+      return setError('Informe um nickname')
+    }
+
+    localStorage.setItem('@tictactoe:nickname', nickname)
+
+    navigate('/search-room')
   }
 
   const isPending = isCreateRoomPending || isCreateGamePending
@@ -71,9 +85,18 @@ export function Home() {
 
         <div className="mt-10 space-y-6">
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <User2 className="w-5 h-5" />
-              <Input ref={nicknameRef} name="nickname" placeholder="Nickname" />
+            <div>
+              <div className="flex items-center gap-2">
+                <User2 className="w-5 h-5" />
+                <Input
+                  ref={nicknameRef}
+                  name="nickname"
+                  placeholder="Nickname"
+                />
+              </div>
+              {error && (
+                <span className="text-sm text-destructive">{error}</span>
+              )}
             </div>
 
             <div>
@@ -91,7 +114,9 @@ export function Home() {
             <Button isLoading={isPending} onClick={handleCreateRoom}>
               Criar uma sala
             </Button>
-            <Button variant="outline">Entrar em uma sala existente</Button>
+            <Button variant="outline" onClick={handleGoToExistingRoom}>
+              Entrar em uma sala existente
+            </Button>
           </div>
         </div>
       </div>

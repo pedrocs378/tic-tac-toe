@@ -1,9 +1,10 @@
 import { doc, getDoc } from 'firebase/firestore'
 
+import { Room } from '@/schemas/room'
+
 import { FirestoreRoomMapper } from '../mappers/firestore-room-mapper'
 
 import { database } from '../firebase'
-import { Room } from '@/schemas/room'
 
 type GetRoomData = {
   id: string
