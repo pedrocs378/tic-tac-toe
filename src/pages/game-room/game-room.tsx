@@ -120,6 +120,9 @@ export function GameRoom() {
     return <Navigate to="/" replace state={{ error: 'Sala não encontrada' }} />
   }
 
+  const hasTwoPlayers = !!room?.oNickname && !!room.xNickname
+  const hasFinished = !!currentGame && !!currentGame.winner
+
   return isRoomLoading ? (
     <div className="h-screen flex items-center justify-center">
       <Spinner className="h-10 w-10" />
@@ -254,10 +257,11 @@ export function GameRoom() {
                   />
                 )}
 
-                <div className="grid grid-cols-3 grid-rows-3 border rounded-lg p-4 md:p-8">
+                <div
+                  data-disabled={!hasTwoPlayers}
+                  className="grid grid-cols-3 grid-rows-3 border rounded-lg p-4 md:p-8 data-[disabled=true]:opacity-50 data-[disabled=true]:bg-white/5"
+                >
                   {currentGame?.moves.map((move, index) => {
-                    const hasFinished = !!currentGame.winner
-                    const hasTwoPlayers = !!room?.oNickname && !!room.xNickname
                     const isCurrentPlayerTurn =
                       currentGame.turnTo === currentPlayer
 
