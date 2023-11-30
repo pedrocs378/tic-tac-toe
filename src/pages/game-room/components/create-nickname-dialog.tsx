@@ -52,7 +52,11 @@ export function CreateNicknameDialog({
           <DialogDescription>#{roomId}</DialogDescription>
         </DialogHeader>
 
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form
+          id="create-nickname"
+          className="flex flex-col gap-4"
+          onSubmit={handleSubmit}
+        >
           <div>
             <Label htmlFor="nickname">Nickname</Label>
             <Input
@@ -66,7 +70,12 @@ export function CreateNicknameDialog({
         </form>
 
         <DialogFooter>
-          <Button type="submit" className="w-full" isLoading={isSubmitting}>
+          <Button
+            type="submit"
+            form="create-nickname"
+            className="w-full"
+            isLoading={isSubmitting}
+          >
             Jogar
           </Button>
         </DialogFooter>
