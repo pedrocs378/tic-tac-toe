@@ -71,7 +71,6 @@ export function GameRoom() {
           replace: true,
           state: { error: 'A sala já está cheia' },
         })
-        return
       } else {
         setCreateNicknameDialogOpen(true)
       }
