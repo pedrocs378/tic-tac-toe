@@ -1,19 +1,19 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
-import { createSecondPlayer } from '@/libs/firebase/database/create-second-player'
 import { createGame } from '@/libs/firebase/database/create-game'
+import { createSecondPlayer } from '@/libs/firebase/database/create-second-player'
 
 import { useRoom } from '@/hooks/use-room'
 
-import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Player } from '@/components/player'
 import { ClipboardButton } from '@/components/clipboard-button'
-import { Spinner } from '@/components/ui/spinner'
+import { Player } from '@/components/player'
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Spinner } from '@/components/ui/spinner'
 import { WinnerLine } from '@/components/winner-line'
 
 import { CreateNicknameDialog } from './components/create-nickname-dialog'
@@ -67,10 +67,11 @@ export function GameRoom() {
       const fullRoom = !!room?.oNickname && !!room?.xNickname
 
       if (fullRoom) {
-        return navigate('/', {
+        navigate('/', {
           replace: true,
           state: { error: 'A sala já está cheia' },
         })
+        return
       } else {
         setCreateNicknameDialogOpen(true)
       }
@@ -272,7 +273,7 @@ export function GameRoom() {
                         disabled={
                           !isCurrentPlayerTurn || !hasTwoPlayers || hasFinished
                         }
-                        className="flex items-center justify-center aspect-square [&:nth-child(3n+1)]:border-r [&:nth-child(3n+2)]:border-r [&:nth-child(-n+6)]:border-b"
+                        className="flex items-center justify-center aspect-square nth-[3n+1]:border-r nth-[3n+2]:border-r nth-[-n+6]:border-b"
                         onClick={() => {
                           if (currentPlayer) {
                             addMove(currentPlayer, index)
